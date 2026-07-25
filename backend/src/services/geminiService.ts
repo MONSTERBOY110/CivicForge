@@ -235,6 +235,36 @@ export async function generateBlueprint(
 }
 
 /**
+ * Translates text into `targetLanguage` for the MP audio briefing, so ElevenLabs
+ * can speak the summary in the language the MP picked.
+ *
+ * The output is fed straight to text-to-speech, so the prompt forbids any
+ * preamble, quoting or markdown. Degrades gracefully like the rest of this
+ * service: returns the original text when there is no API key or on error, so
+ * the briefing still speaks (in English) rather than failing.
+ */
+export async function translateText(text: string, targetLanguage: string): Promise<string> {
+  const client = getGeminiClient();
+  if (!client || !text?.trim()) return text;
+
+  try {
+    const response = await client.models.generateContent({
+      model: 'gemini-3.5-flash',
+      contents: `Translate the text below into ${targetLanguage}.
+      It will be read aloud by a text-to-speech engine, so reply with ONLY the translated text: no preamble, no quotation marks, no markdown.
+      Keep numbers as digits and keep place names recognisable.
+
+      Text: "${text}"`
+    });
+
+    return response.text?.trim() || text;
+  } catch (error) {
+    console.error('Gemini translation error:', error);
+    return text;
+  }
+}
+
+/**
  * Generates a 768-dimension text embedding for a grievance description using
  * Gemini `gemini-embedding-001` (reduced to 768 dims). Powers Atlas Vector
  * Search semantic clustering. Returns null when no API key or on error (callers

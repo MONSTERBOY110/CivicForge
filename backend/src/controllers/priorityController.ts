@@ -5,6 +5,7 @@ import { Solution } from '../models/Solution';
 import { Vouch } from '../models/Vouch';
 import { runAIPrioritizationTask } from '../services/aiPrioritizer';
 import { synthesizeSpeech } from '../services/elevenLabsService';
+import { translateText } from '../services/geminiService';
 
 export async function getPriorityMatrix(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   try {
@@ -77,19 +78,46 @@ export async function forcePrioritizeAll(req: AuthenticatedRequest, res: Respons
 }
 
 /**
+ * Languages the audio briefing can be delivered in. The script is always built
+ * in English, then translated by Gemini when another language is requested;
+ * ElevenLabs `eleven_multilingual_v2` handles the speech for all of them.
+ */
+const BRIEFING_LANGUAGES = { en: 'English', hi: 'Hindi' } as const;
+type BriefingLanguage = keyof typeof BRIEFING_LANGUAGES;
+
+function resolveBriefingLanguage(raw: unknown): BriefingLanguage {
+  const requested = String(raw ?? 'en').toLowerCase();
+  return (Object.prototype.hasOwnProperty.call(BRIEFING_LANGUAGES, requested)
+    ? requested
+    : 'en') as BriefingLanguage;
+}
+
+/** English scripts pass through untouched; anything else goes via Gemini. */
+async function localizeScript(script: string, lang: BriefingLanguage): Promise<string> {
+  if (lang === 'en') return script;
+  return translateText(script, BRIEFING_LANGUAGES[lang]);
+}
+
+/**
  * MP "Audio Briefing": spoken (ElevenLabs) executive summary of the top
  * priority grievances, so an MP can be briefed hands-free.
- * Returns a base64 MP3 (null if ElevenLabs isn't configured) plus the script.
+ * Returns a base64 MP3 (null if ElevenLabs isn't configured) plus the script
+ * and the language it was actually delivered in.
+ *
+ * Query: ?lang=en|hi  (anything else falls back to en)
  */
 export async function getBriefing(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   try {
+    const lang = resolveBriefingLanguage(req.query.lang);
+
     const grievances = await Grievance.find({ status: { $in: ['pending_review', 'verified', 'matched'] } })
       .sort({ aiPriorityScore: -1, urgencyScore: -1 })
       .limit(5)
       .exec();
 
     if (!grievances.length) {
-      return res.json({ success: true, audioBase64: null, script: 'There are no active grievances to brief at this time.' });
+      const emptyScript = await localizeScript('There are no active grievances to brief at this time.', lang);
+      return res.json({ success: true, audioBase64: null, script: emptyScript, lang });
     }
 
     const lines = grievances.map((g: any, i: number) => {
@@ -98,10 +126,11 @@ export async function getBriefing(req: AuthenticatedRequest, res: Response, next
       return `Priority ${i + 1}: a ${g.category} issue at ${loc}, with an urgency of ${g.urgencyScore} out of 100, reported by ${reporters}.`;
     });
 
-    const script = `Good day. Here is your constituency priority briefing. ${grievances.length} ${grievances.length === 1 ? 'issue requires' : 'issues require'} your attention. ${lines.join(' ')} Please open the priority matrix to verify these issues and match them with developer solutions.`;
+    const englishScript = `Good day. Here is your constituency priority briefing. ${grievances.length} ${grievances.length === 1 ? 'issue requires' : 'issues require'} your attention. ${lines.join(' ')} Please open the priority matrix to verify these issues and match them with developer solutions.`;
 
+    const script = await localizeScript(englishScript, lang);
     const audioBase64 = await synthesizeSpeech(script);
-    return res.json({ success: true, audioBase64, script });
+    return res.json({ success: true, audioBase64, script, lang });
   } catch (error) {
     next(error);
   }

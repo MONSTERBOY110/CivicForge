@@ -3,10 +3,11 @@ import axiosClient from '../../api/axiosClient';
 import { HeatmapView } from '../../components/HeatmapView';
 import { PriorityMatrixTable } from '../../components/PriorityMatrixTable';
 import { SolutionCard } from '../../components/SolutionCard';
+import { BriefingPlayer } from '../../components/BriefingPlayer';
 import {
   Landmark, Map, TableProperties, Cpu, FileText, CheckCircle,
   Loader2, Sparkles, ArrowRight, ShieldCheck, Check, IndianRupee,
-  MapPin, Volume2
+  MapPin
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -43,8 +44,6 @@ export const MPDashboard: React.FC = () => {
   const [blueprints, setBlueprints] = useState<Blueprint[]>([]);
   const [loadingBlueprints, setLoadingBlueprints] = useState(false);
   const [loadingGeneral, setLoadingGeneral] = useState(true);
-  const [loadingBriefing, setLoadingBriefing] = useState(false);
-  const briefingAudioRef = React.useRef<HTMLAudioElement | null>(null);
 
   const fetchGrievances = async () => {
     try {
@@ -184,33 +183,7 @@ export const MPDashboard: React.FC = () => {
               <Sparkles className="w-4 h-4" />
               <span>Force AI Sync</span>
             </button>
-            <button
-              onClick={async () => {
-                // Stop any briefing already playing so a re-click replaces it.
-                if (briefingAudioRef.current) { briefingAudioRef.current.pause(); briefingAudioRef.current = null; }
-                const toastId = toast.loading('Generating your audio briefing...');
-                setLoadingBriefing(true);
-                try {
-                  const res = await axiosClient.get('/api/priority-matrix/briefing');
-                  if (res.data.success && res.data.audioBase64) {
-                    const audio = new Audio(`data:audio/mpeg;base64,${res.data.audioBase64}`);
-                    briefingAudioRef.current = audio;
-                    audio.play().catch(() => {});
-                    toast.success('Playing your priority briefing.', { id: toastId });
-                  } else {
-                    toast.success(res.data.script || 'Briefing ready (voice unavailable).', { id: toastId });
-                  }
-                } catch (e) {
-                  toast.error('Failed to generate briefing.', { id: toastId });
-                } finally {
-                  setLoadingBriefing(false);
-                }
-              }}
-              className="flex items-center gap-2 px-5 py-3.5 neumorphic-concave theme-text-main hover:brightness-110 rounded-[18px] text-xs font-black uppercase transition-colors"
-            >
-              {loadingBriefing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Volume2 className="w-4 h-4" />}
-              <span>Audio Briefing</span>
-            </button>
+            <BriefingPlayer />
             <div className="text-center neumorphic-concave px-6 py-3 rounded-[18px]">
               <span className="block text-xl font-black text-red-500">
                 {grievances.filter(g => g.status === 'verified' || g.status === 'pending_review').length}

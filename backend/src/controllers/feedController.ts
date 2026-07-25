@@ -11,7 +11,7 @@ export async function getSolutionsFeed(req: AuthenticatedRequest, res: Response,
     }
 
     if (req.user.role !== 'citizen' && req.user.role !== 'developer') {
-      return res.status(403).json({ message: 'Only citizens and developers can access the solutions feed.' });
+      return res.status(403).json({ message: 'Only citizens and civic engineers can access the solutions feed.' });
     }
 
     const page = parseInt(req.query.page as string) || 1;
@@ -69,7 +69,7 @@ export async function getProblemsFeed(req: AuthenticatedRequest, res: Response, 
     }
 
     if (req.user.role !== 'developer') {
-      return res.status(403).json({ message: 'Only developers can access the problems feed.' });
+      return res.status(403).json({ message: 'Only civic engineers can access the problems feed.' });
     }
 
     const page = parseInt(req.query.page as string) || 1;

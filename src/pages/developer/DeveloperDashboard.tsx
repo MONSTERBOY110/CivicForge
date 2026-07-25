@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axiosClient from '../../api/axiosClient';
 import { SolutionCard } from '../../components/SolutionCard';
 import { ShieldAlert, Cpu, Terminal, Github, ExternalLink, MapPin, Loader2 } from 'lucide-react';
+import { DeliveryTypeToggle, SolutionType } from '../../components/DeliveryTypeToggle';
 import toast from 'react-hot-toast';
 
 interface Grievance {
@@ -20,6 +21,7 @@ interface Solution {
   description: string;
   techStack: string[];
   targetCategory: string;
+  solutionType?: SolutionType;
   repoUrl?: string;
   demoUrl?: string;
   vouchCount: number;
@@ -39,6 +41,7 @@ export const DeveloperDashboard: React.FC = () => {
   const [demoUrl, setDemoUrl] = useState('');
   const [techStackInput, setTechStackInput] = useState('');
   const [targetCategory, setTargetCategory] = useState('water');
+  const [solutionType, setSolutionType] = useState<SolutionType>('software');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const loadAllData = async () => {
@@ -83,6 +86,7 @@ export const DeveloperDashboard: React.FC = () => {
         description,
         techStack,
         targetCategory,
+        solutionType,
         repoUrl: repoUrl || undefined,
         demoUrl: demoUrl || undefined
       });
@@ -94,6 +98,7 @@ export const DeveloperDashboard: React.FC = () => {
         setRepoUrl('');
         setDemoUrl('');
         setTechStackInput('');
+        setSolutionType('software');
         loadAllData();
       }
     } catch (err: any) {
@@ -117,9 +122,9 @@ export const DeveloperDashboard: React.FC = () => {
         {/* Banner */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0 neumorphic-convex p-6 rounded-[28px]">
           <div>
-            <span className="theme-accent text-xs font-black uppercase tracking-widest">Developer Prototyping Hub</span>
+            <span className="theme-accent text-xs font-black uppercase tracking-widest">Civic Engineer Prototyping Hub</span>
             <h1 className="text-2xl font-black mt-1 theme-text-main">Open-Source Civic Solution Registry</h1>
-            <p className="theme-text-muted text-xs mt-1 font-bold">Build open prototypes (React apps, Python tools, Edge IoT) to address verified community demands.</p>
+            <p className="theme-text-muted text-xs mt-1 font-bold">Build open prototypes in software or hardware (React apps, Python tools, IoT sensor rigs) to address verified community demands.</p>
           </div>
           <div className="flex items-center space-x-6">
             <div className="text-center neumorphic-concave px-5 py-3 rounded-2xl">
@@ -224,6 +229,8 @@ export const DeveloperDashboard: React.FC = () => {
                     </select>
                   </div>
                 </div>
+
+                <DeliveryTypeToggle value={solutionType} onChange={setSolutionType} />
 
                 <div className="space-y-1.5">
                   <label className="text-xs font-black theme-text-muted uppercase tracking-wider">Solution Description</label>

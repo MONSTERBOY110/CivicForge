@@ -34,7 +34,7 @@ async function seed() {
     const hashedPassword = await bcrypt.hash('123456', 10);
 
     // 3. Seed Users
-    console.log('Seeding MP, Citizen, and Developer users...');
+    console.log('Seeding MP, Citizen, and Civic Engineer users...');
     
     // MP User
     const mpUser = await User.create({
@@ -67,7 +67,7 @@ async function seed() {
       citizens.push(citizen);
     }
 
-    // 5 Developers
+    // 5 Civic Engineers
     const developers = [];
     const devNames = [
       'TechForge Labs (Arijit)',
@@ -332,12 +332,13 @@ async function seed() {
     // Re-fetch all grievances to get updated objects for blueprint references
     const updatedGrievanceList = await Grievance.find({});
 
-    // 5. Seed Developer Solutions (7 solutions across water, road, electricity, sanitation)
-    console.log('Seeding 7 developer prototypes / solutions...');
+    // 5. Seed Civic Engineer Solutions (7 solutions across water, road, electricity, sanitation)
+    console.log('Seeding 7 civic engineer prototypes / solutions...');
     const solutions = [
       {
         devIdx: 0,
         title: 'AquaSensor IoT: Pipe Leak Detection Network',
+        solutionType: 'hybrid',
         description: 'Low-cost acoustic and flow rate IoT hardware clamps that attach to municipal water distribution pipelines. Uses Edge AI to detect pinpoint pressure drops and leak vibration patterns before pavement collapses occur.',
         techStack: ['Node.js', 'React', 'C++', 'MQTT', 'TensorFlow Lite'],
         targetCategory: 'water',
@@ -348,6 +349,7 @@ async function seed() {
       {
         devIdx: 1,
         title: 'RoadScan AI: Autonomous Pavement Defect Mapper',
+        solutionType: 'software',
         description: 'A mobile application utilizing computer vision that dash-mounts in municipal buses or garbage trucks. Automatically video-scans city streets, classifies potholes, fissures, and crumbling edges with GPS stamps, and exports a GIS maintenance map.',
         techStack: ['Python', 'React Native', 'YOLOv8', 'PostgreSQL', 'FastAPI'],
         targetCategory: 'road',
@@ -359,6 +361,7 @@ async function seed() {
       {
         devIdx: 2,
         title: 'EcoSort Smart Grid: Civic Waste Router',
+        solutionType: 'hybrid',
         description: 'A logistics optimization platform connecting community rubbish bins to public garbage trucks. Uses acoustic fill-level ultrasonic sensors to alert garbage management services of filled bins, optimizing diesel truck paths and avoiding street litter.',
         techStack: ['React', 'Express', 'D3.js', 'Tailwind CSS', 'Leaflet'],
         targetCategory: 'sanitation',
@@ -369,6 +372,7 @@ async function seed() {
       {
         devIdx: 3,
         title: 'GridPulse: Smart Grid Local Voltage Balancer',
+        solutionType: 'software',
         description: 'An open-source telemetry dashboard compiling consumer smart-meter voltage records. Isolates high-tension transformers that are over-loaded, allowing electricity boards to preemptively balance phase voltages and prevent local blackouts.',
         techStack: ['TypeScript', 'React', 'InfluxDB', 'Grafana', 'Go'],
         targetCategory: 'electricity',
@@ -379,6 +383,7 @@ async function seed() {
       {
         devIdx: 4,
         title: 'HydroAlert: Early Warning Drainage Flow Meter',
+        solutionType: 'hardware',
         description: 'Submersible water level and flow speed indicators designed for municipal storm drains. Alerts local administration immediately when drainage speeds fall below thresholds, identifying blockages and preventing heavy waterlogging.',
         techStack: ['Arduino', 'React', 'Tailwind', 'Node-RED'],
         targetCategory: 'water',
@@ -388,6 +393,7 @@ async function seed() {
       {
         devIdx: 1,
         title: 'LightGuard: Photocell Power Theft Detector',
+        solutionType: 'hybrid',
         description: 'Retrofit mesh controllers for solar street lights that detect line-tapping power thefts and wire shortages. Instantly flags inactive street lights on a live administrative dashboard, reducing crime-vulnerable dark zones.',
         techStack: ['React', 'Express', 'Mongoose', 'Leaflet.js'],
         targetCategory: 'electricity',
@@ -397,6 +403,7 @@ async function seed() {
       {
         devIdx: 2,
         title: 'SafeCrossing: Smart Radar Pedestrian Warning Systems',
+        solutionType: 'hardware',
         description: 'A Doppler-radar and smart LED display system that alerts fast-approaching vehicles when pedestrians or students step near school crosswalks. Tracks crossing usage statistics and speed averages, reporting traffic behavior to the municipal planners.',
         techStack: ['React', 'Raspberry Pi', 'Python', 'OpenCV'],
         targetCategory: 'road',
@@ -411,6 +418,7 @@ async function seed() {
         title: spec.title,
         description: spec.description,
         techStack: spec.techStack || ['React', 'Express'],
+        solutionType: spec.solutionType || 'software',
         targetCategory: spec.targetCategory,
         repoUrl: spec.repoUrl || 'https://github.com/civicforge',
         demoUrl: spec.demoUrl || 'https://demo.civicforge.in',
@@ -482,7 +490,7 @@ async function seed() {
       'How does the sensor deal with heavy monsoon flooding?',
       'The radar warning is very smart, school zones are currently death traps.',
       'Very clean code repository!',
-      'This is a model example of citizen-led developer innovation!'
+      'This is a model example of citizen-led civic engineer innovation!'
     ];
 
     for (let i = 0; i < 18; i++) {
@@ -566,7 +574,7 @@ This initiative deploys the **RoadScan AI Pavement Defect Mapper** on 15 municip
     console.log(`\nRole: Citizen (5 Users seeded)`);
     console.log(`  - Emails:   citizen1@gmail.com, citizen2@gmail.com, citizen3@gmail.com...`);
     console.log(`  - Password: 123456`);
-    console.log(`\nRole: Developer (5 Users seeded)`);
+    console.log(`\nRole: Civic Engineer (5 Users seeded)`);
     console.log(`  - Emails:   dev1@gmail.com, dev2@gmail.com, dev3@gmail.com...`);
     console.log(`  - Password: 123456`);
     console.log('=====================================================================\n');

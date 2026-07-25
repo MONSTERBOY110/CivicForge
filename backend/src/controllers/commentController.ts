@@ -13,7 +13,7 @@ export async function createComment(req: AuthenticatedRequest, res: Response, ne
     }
 
     if (req.user.role !== 'citizen' && req.user.role !== 'developer') {
-      return res.status(403).json({ message: 'Only citizens and developers can comment.' });
+      return res.status(403).json({ message: 'Only citizens and civic engineers can comment.' });
     }
 
     if (!text || !text.trim()) {

@@ -7,12 +7,17 @@ import { runAIPrioritizationTask } from '../services/aiPrioritizer';
 
 export async function createSolution(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   try {
-    const { title, description, techStack, targetCategory, repoUrl, demoUrl, docsUrl } = req.body;
+    const { title, description, techStack, targetCategory, solutionType, repoUrl, demoUrl, docsUrl } = req.body;
 
     if (!req.user) return res.status(401).json({ message: 'Authentication required' });
 
     if (!title || !description || !targetCategory) {
       return res.status(400).json({ message: 'Missing required solution fields: title, description, targetCategory.' });
+    }
+
+    const ALLOWED_SOLUTION_TYPES = ['software', 'hardware', 'hybrid'];
+    if (solutionType && !ALLOWED_SOLUTION_TYPES.includes(solutionType)) {
+      return res.status(400).json({ message: `solutionType must be one of: ${ALLOWED_SOLUTION_TYPES.join(', ')}.` });
     }
 
     const solutionDoc = new Solution({
@@ -21,6 +26,7 @@ export async function createSolution(req: AuthenticatedRequest, res: Response, n
       description,
       techStack: Array.isArray(techStack) ? techStack : techStack?.split(',').map((s: string) => s.trim()).filter(Boolean) || [],
       targetCategory,
+      solutionType: solutionType || 'software',
       repoUrl,
       demoUrl,
       docsUrl,

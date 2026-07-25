@@ -323,7 +323,7 @@ export const MPDashboard: React.FC = () => {
                 )}
               </div>
 
-              {/* Matched Developer Prototypes */}
+              {/* Matched Civic Engineer Prototypes */}
               <div className="w-full space-y-6">
                 <div className="flex items-center space-x-2 px-2">
                   <Cpu className="w-6 h-6 theme-accent" />
@@ -337,11 +337,11 @@ export const MPDashboard: React.FC = () => {
                 ) : loadingMatches ? (
                   <div className="neumorphic-convex rounded-4xl p-16 text-center">
                     <Loader2 className="w-8 h-8 theme-accent animate-spin mx-auto" />
-                    <p className="theme-text-muted text-xs font-black mt-4 uppercase tracking-wider">Querying developer registry...</p>
+                    <p className="theme-text-muted text-xs font-black mt-4 uppercase tracking-wider">Querying civic engineer registry...</p>
                   </div>
                 ) : matchedSolutions.length === 0 ? (
                   <div className="neumorphic-convex rounded-4xl p-16 text-center space-y-4">
-                    <p className="theme-text-main text-base font-black">No developer prototypes registered for this sector.</p>
+                    <p className="theme-text-main text-base font-black">No civic engineer prototypes registered for this sector.</p>
                     <button
                       onClick={handleGenerateProposal}
                       disabled={generatingProposal}

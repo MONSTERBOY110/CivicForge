@@ -164,7 +164,7 @@ export const RegisterPage: React.FC = () => {
                   </span>
                 </button>
 
-                {/* Developer Button */}
+                {/* Civic Engineer Button */}
                 <button
                   type="button"
                   onClick={() => setRole('developer')}
@@ -173,8 +173,9 @@ export const RegisterPage: React.FC = () => {
                   }`}
                 >
                   <Cpu className="w-3.5 h-3.5 shrink-0" />
-                  <span className="max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-all duration-300 group-hover:ml-2 group-hover:max-w-24 group-hover:opacity-100 text-[10px] font-black uppercase tracking-wider">
-                    Developer
+                  {/* Wider reveal than the other roles: "CIVIC ENGINEER" clips at max-w-24. */}
+                  <span className="max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-all duration-300 group-hover:ml-2 group-hover:max-w-40 group-hover:opacity-100 text-[10px] font-black uppercase tracking-wider">
+                    Civic Engineer
                   </span>
                 </button>
 

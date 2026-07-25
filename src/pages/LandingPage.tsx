@@ -167,7 +167,7 @@ export const LandingPage: React.FC = () => {
 
           <motion.p variants={fadeInUp} className="text-sm sm:text-base text-[#4B5563] font-medium leading-relaxed max-w-3xl">
             A dual-engine civic-tech ecosystem. Citizens lodge localized infrastructure grievances; 
-            developers construct deployable software prototypes, and MPs harness data fusion to prioritize funding-ready projects.
+            civic engineers build deployable software and hardware prototypes, and MPs harness data fusion to prioritize funding-ready projects.
           </motion.p>
 
           <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-10 w-full sm:w-auto">
@@ -212,7 +212,7 @@ export const LandingPage: React.FC = () => {
             <motion.div variants={fadeInUp} whileHover={{ y: -8 }} className="bg-[#F0F2F5] p-8 rounded-4xl shadow-[8px_8px_16px_#D1D9E6,-8px_-8px_16px_#FFFFFF] border border-white/50 relative flex flex-col justify-between cursor-default">
               <div className="space-y-4">
                 <span className="block text-4xl font-black text-[#0D9488] tracking-tighter">2.</span>
-                <h3 className="text-lg font-black text-[#111827] uppercase tracking-tight">Developers Prototype</h3>
+                <h3 className="text-lg font-black text-[#111827] uppercase tracking-tight">Civic Engineers Prototype</h3>
                 <p className="text-xs text-[#4B5563] leading-relaxed font-medium">Browse classified community demands. Submit open-source technical solutions (apps, IoT hardware) to win public validation and vouches.</p>
               </div>
               <div className="w-10 h-10 mt-6 rounded-full bg-[#F0F2F5] flex items-center justify-center text-[#0D9488] shadow-[inset_2px_2px_5px_#D1D9E6,inset_-2px_-2px_5px_#FFFFFF]">
@@ -225,7 +225,7 @@ export const LandingPage: React.FC = () => {
               <div className="space-y-4">
                 <span className="block text-4xl font-black text-[#1E3A8A] tracking-tighter">3.</span>
                 <h3 className="text-lg font-black text-[#111827] uppercase tracking-tight">MPs Authorize</h3>
-                <p className="text-xs text-[#4B5563] leading-relaxed font-medium">Evaluate real-time urgency heatmaps. Match citizen issues to developer tools, and one-click generate budget proposals using Gemini.</p>
+                <p className="text-xs text-[#4B5563] leading-relaxed font-medium">Evaluate real-time urgency heatmaps. Match citizen issues to civic engineer-built solutions, and one-click generate budget proposals using Gemini.</p>
               </div>
               <div className="w-10 h-10 mt-6 rounded-full bg-[#F0F2F5] flex items-center justify-center text-[#1E3A8A] shadow-[inset_2px_2px_5px_#D1D9E6,inset_-2px_-2px_5px_#FFFFFF]">
                 <Landmark className="w-4 h-4" />
@@ -325,13 +325,13 @@ export const LandingPage: React.FC = () => {
               </div>
             </motion.div>
 
- {/* Pillar 2: Developer */}
+ {/* Pillar 2: Civic Engineer */}
             <motion.div variants={fadeInUp} className="bg-white rounded-4xl shadow-[8px_8px_16px_#D1D9E6,-8px_-8px_16px_#FFFFFF] flex flex-col border border-[#D1D9E6]/30 group hover:shadow-2xl transition-all duration-500">
               <div className="bg-[#0D9488] p-6 rounded-4xl text-white relative flex flex-col z-10">
                 <div className="flex justify-between items-start z-10 relative">
                   <div>
                     <span className="text-[10px] font-black tracking-widest uppercase bg-white/20 px-2 py-0.5 rounded">BUILD ROLE</span>
-                    <h3 className="text-2xl lg:text-3xl font-black mt-2 uppercase tracking-tight">The Developer</h3>
+                    <h3 className="text-2xl lg:text-3xl font-black mt-2 uppercase tracking-tight">The Civic Engineer</h3>
                   </div>
                   <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white transition-all group-hover:bg-white group-hover:text-[#0D9488]">
                     <ArrowUpRight className="w-4 h-4" />
@@ -340,7 +340,7 @@ export const LandingPage: React.FC = () => {
                 
                 <div className="mt-4 relative h-75 flex items-center justify-center w-full">
                   <div className="absolute inset-4 rounded-2xl border border-white/20 bg-white/5"></div>
-                  <img src={devImg} alt="Developer" className="relative z-10 h-[115%] object-contain drop-shadow-[0_15px_15px_rgba(0,0,0,0.35)] group-hover:drop-shadow-[0_25px_25px_rgba(0,0,0,0.55)] group-hover:scale-105 transition-all duration-500 ease-out origin-bottom" />
+                  <img src={devImg} alt="Civic Engineer" className="relative z-10 h-[115%] object-contain drop-shadow-[0_15px_15px_rgba(0,0,0,0.35)] group-hover:drop-shadow-[0_25px_25px_rgba(0,0,0,0.55)] group-hover:scale-105 transition-all duration-500 ease-out origin-bottom" />
                 </div>
               </div>
               
@@ -506,7 +506,7 @@ export const LandingPage: React.FC = () => {
                   <span className="text-[9px] font-black text-[#111827] uppercase tracking-wider">MODULE 03</span>
                 </div>
                 <h3 className="text-2xl font-black text-[#111827] uppercase tracking-tight">One-Click Funding Blueprints</h3>
-                <p className="text-xs text-[#4B5563] leading-relaxed font-medium">Representatives analyze verified data metrics alongside matched developer tools. Click to execute the Gemini blueprint engine, instantly formatting ready budget drafts.</p>
+                <p className="text-xs text-[#4B5563] leading-relaxed font-medium">Representatives analyze verified data metrics alongside matched civic engineer-built solutions. Click to execute the Gemini blueprint engine, instantly formatting ready budget drafts.</p>
               </div>
 
               <div className="lg:col-span-7 bg-[#F0F2F5] p-6 rounded-4xl shadow-[8px_8px_16px_#D1D9E6,-8px_-8px_16px_#FFFFFF] border border-white/60 hover:shadow-[12px_12px_24px_#D1D9E6,-12px_-12px_24px_#FFFFFF] transition-shadow">

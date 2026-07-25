@@ -7,7 +7,7 @@
 
 ## 📖 Overview
 
-CivicForge bridges the operational gap between parliamentary planning and real-time public demands by linking citizens, developers, and representatives on a unified digital canvas. By converting unstructured public distress signals into quantified geographic demands, the system automatically pairs localized infrastructure deficits with ready-to-deploy open-source solutions.
+CivicForge bridges the operational gap between parliamentary planning and real-time public demands by linking citizens, civic engineers, and representatives on a unified digital canvas. By converting unstructured public distress signals into quantified geographic demands, the system automatically pairs localized infrastructure deficits with ready-to-deploy open-source solutions.
 
 The platform utilizes a dynamic **Tri-Theme "Bento" Design System** that completely transforms the user interface (colors, shadow depth, and layouts) based on the authenticated user's role.
 
@@ -23,11 +23,11 @@ Empowering citizens to report issues with a frictionless, social-media-style ver
   <img src="./scereenshots/c3.png" width="30%" alt="Universal Leaderboard" />
 </p>
 
-### Developer Marketplace (Dark Charcoal Theme)
+### Civic Engineer Marketplace (Dark Charcoal Theme)
 A high-contrast, code-centric workspace for technical users to find civic RFPs and submit technical prototypes.
 <p align="center">
-  <img src="./scereenshots/d1.png" width="45%" alt="Developer Dashboard" />
-  <img src="./scereenshots/d3.png" width="45%" alt="Developer Feed" />
+  <img src="./scereenshots/d1.png" width="45%" alt="Civic Engineer Dashboard" />
+  <img src="./scereenshots/d3.png" width="45%" alt="Civic Engineer Feed" />
 </p>
 
 ### Executive Evaluation Station (Dark Noir Theme)
@@ -55,8 +55,8 @@ The platform operates on a three-layer system designed for transparency, speed, 
 * **Distress Heatmap:** Algorithmically ranks and visualizes infrastructure issues into a live, urgency-scaled spatial heatmap for Members of Parliament.
 * **AI Audio Briefing:** One click has ElevenLabs read the top-priority grievances aloud, a hands-free executive briefing.
 
-### 3. Developer Marketplace (The Execution)
-* **Solution Registry:** Local tech talent registers functional, open-source prototypes (apps, IoT hardware) tagged to specific municipal categories.
+### 3. Civic Engineer Marketplace (The Execution)
+* **Solution Registry:** Local civic engineering talent registers functional, open-source prototypes (software apps or IoT hardware) tagged to specific municipal categories.
 * **Automated Matchmaking:** An intelligent recommendation layer directly couples verified regional structural deficits with community-built solutions.
 * **One-Click Funding Blueprints:** Once an MP authorizes a problem-solution match, Gemini instantly auto-generates a structured, data-backed development funding proposal for immediate administrative execution.
 

@@ -98,7 +98,7 @@ export const DeveloperLeaderboard: React.FC = () => {
                 <Star className="w-4 h-4 theme-accent fill-current animate-pulse" />
                 <span className="theme-accent text-xs font-black uppercase tracking-widest">Public Leaderboard</span>
               </div>
-              <h1 className="text-2xl font-black mt-1 theme-text-main uppercase tracking-tight">Top Civic Developers</h1>
+              <h1 className="text-2xl font-black mt-1 theme-text-main uppercase tracking-tight">Top Civic Engineers</h1>
               <p className="theme-text-muted text-xs font-bold mt-1">
                 Celebrating open-source contributors who build high-impact prototypes.
               </p>
@@ -112,7 +112,7 @@ export const DeveloperLeaderboard: React.FC = () => {
               </div>
               <div className="text-center px-3 border-r border-black/10 dark:border-white/10">
                 <span className="block text-lg font-black theme-accent">{leaderboard.length}</span>
-                <span className="text-[9px] font-black uppercase tracking-wider theme-text-muted">Developers</span>
+                <span className="text-[9px] font-black uppercase tracking-wider theme-text-muted">Civic Engineers</span>
               </div>
               <div className="text-center px-3">
                 <span className="block text-lg font-black theme-text-main">{totalVouchesAll}</span>
@@ -159,7 +159,7 @@ export const DeveloperLeaderboard: React.FC = () => {
         <div className="neumorphic-convex rounded-3xl p-4 flex flex-col sm:flex-row sm:items-center gap-4">
           <div className="flex items-center space-x-2 shrink-0 theme-text-muted">
             <Search className="w-4 h-4 theme-accent" />
-            <span className="text-xs font-black uppercase tracking-wider">Search Developers</span>
+            <span className="text-xs font-black uppercase tracking-wider">Search Civic Engineers</span>
           </div>
           <div className="relative w-full">
             <input
@@ -249,12 +249,12 @@ export const DeveloperLeaderboard: React.FC = () => {
         {loading ? (
           <div className="neumorphic-convex rounded-[28px] p-16 text-center">
             <div className="w-8 h-8 border-3 border-current theme-accent border-t-transparent rounded-full animate-spin mx-auto"></div>
-            <p className="theme-text-muted font-black text-xs mt-3.5 uppercase tracking-wider">Recalculating developer rankings...</p>
+            <p className="theme-text-muted font-black text-xs mt-3.5 uppercase tracking-wider">Recalculating civic engineer rankings...</p>
           </div>
         ) : filteredLeaderboard.length === 0 ? (
           <div className="neumorphic-convex rounded-[28px] p-16 text-center space-y-3">
             <UserCheck className="w-10 h-10 theme-text-muted mx-auto" />
-            <p className="theme-text-main text-sm font-black">No registered developers found.</p>
+            <p className="theme-text-main text-sm font-black">No registered civic engineers found.</p>
           </div>
         ) : (
           <>
@@ -262,7 +262,7 @@ export const DeveloperLeaderboard: React.FC = () => {
             <div className="hidden md:block neumorphic-convex rounded-[28px] overflow-hidden" id="leaderboard-container">
               <div className="grid grid-cols-12 gap-4 px-6 py-4 bg-black/5 dark:bg-white/5 border-b border-black/10 dark:border-white/10 text-[10px] font-black uppercase tracking-widest theme-text-muted">
                 <div className="col-span-1 text-center">Rank</div>
-                <div className="col-span-5">Developer Details</div>
+                <div className="col-span-5">Civic Engineer Details</div>
                 <div className="col-span-2 text-center">Region</div>
                 <div className="col-span-2 text-center">Solutions</div>
                 <div className="col-span-2 text-center">Vouches</div>

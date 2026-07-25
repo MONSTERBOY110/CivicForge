@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { VouchButton } from './VouchButton';
 import { ExternalLink, Code } from 'lucide-react';
+import { DELIVERY_TYPES } from './DeliveryTypeToggle';
 
 interface SolutionCardProps {
   solution: any;
@@ -36,9 +37,22 @@ export const SolutionCard: React.FC<SolutionCardProps> = ({ solution, userRole, 
     >
       <div className="flex justify-between items-start space-x-2">
         <div className="space-y-1 flex-1">
-          <span className="text-[9px] font-black uppercase tracking-wider neumorphic-concave theme-text-muted px-2.5 py-1 rounded-md">
-            {solution.targetCategory}
-          </span>
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="text-[9px] font-black uppercase tracking-wider neumorphic-concave theme-text-muted px-2.5 py-1 rounded-md">
+              {solution.targetCategory}
+            </span>
+            {(() => {
+              // Solutions created before solutionType existed default to software.
+              const badge = DELIVERY_TYPES.find(t => t.value === (solution.solutionType || 'software')) || DELIVERY_TYPES[0];
+              const Icon = badge.icon;
+              return (
+                <span className="text-[9px] font-black uppercase tracking-wider theme-accent neumorphic-concave px-2.5 py-1 rounded-md inline-flex items-center gap-1">
+                  <Icon className="w-3 h-3" />
+                  {badge.label}
+                </span>
+              );
+            })()}
+          </div>
           <h4 className="text-base font-black theme-text-main line-clamp-1 mt-2">{solution.title}</h4>
           <p className="text-[10px] font-bold theme-text-muted">
             By <span className="theme-accent font-black">{solution.developer?.name || 'Anonymous'}</span>

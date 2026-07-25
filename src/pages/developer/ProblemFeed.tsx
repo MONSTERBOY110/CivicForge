@@ -3,6 +3,7 @@ import axiosClient from '../../api/axiosClient';
 import { useAuth } from '../../context/AuthContext';
 import { toast } from 'react-hot-toast';
 import { ShieldAlert, Sparkles, MapPin, Calendar, Cpu, Volume2, X, Plus, ListFilter } from 'lucide-react';
+import { DeliveryTypeToggle, SolutionType } from '../../components/DeliveryTypeToggle';
 interface Problem {
   _id: string;
   category: string;
@@ -46,6 +47,7 @@ export const ProblemFeed: React.FC = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [techStack, setTechStack] = useState('');
+  const [solutionType, setSolutionType] = useState<SolutionType>('software');
   const [repoUrl, setRepoUrl] = useState('');
   const [demoUrl, setDemoUrl] = useState('');
   const [docsUrl, setDocsUrl] = useState('');
@@ -115,6 +117,7 @@ export const ProblemFeed: React.FC = () => {
     setTitle(`Prototype Solution for ${problem.category.toUpperCase()}`);
     setDescription('');
     setTechStack('');
+    setSolutionType('software');
     setRepoUrl('');
     setDemoUrl('');
     setDocsUrl('');
@@ -140,6 +143,7 @@ export const ProblemFeed: React.FC = () => {
         description: description.trim(),
         techStack: formattedTech,
         targetCategory: selectedCategoryForSolution,
+        solutionType,
         repoUrl: repoUrl.trim() || undefined,
         demoUrl: demoUrl.trim() || undefined,
         docsUrl: docsUrl.trim() || undefined
@@ -177,7 +181,7 @@ export const ProblemFeed: React.FC = () => {
             <div>
               <div className="flex items-center space-x-2">
                 <Cpu className="w-4 h-4 theme-accent" />
-                <span className="theme-accent text-xs font-black uppercase tracking-widest">Developer Marketplace</span>
+                <span className="theme-accent text-xs font-black uppercase tracking-widest">Civic Engineer Marketplace</span>
               </div>
               <h1 className="text-2xl font-black mt-1 theme-text-main uppercase tracking-tight">Civic Demands Feed</h1>
               <p className="theme-text-muted text-xs font-bold mt-1">Browse verified citizen complaints and register targeted solution prototypes.</p>
@@ -350,6 +354,8 @@ export const ProblemFeed: React.FC = () => {
                 />
               </div>
 
+              <DeliveryTypeToggle value={solutionType} onChange={setSolutionType} showHint={false} />
+
               <div className="space-y-1.5">
                 <label className="block text-xs font-black uppercase tracking-wider theme-text-muted">Tech Stack (comma-separated tags)</label>
                 <input
@@ -385,7 +391,7 @@ export const ProblemFeed: React.FC = () => {
               </div>
 
               <div className="space-y-1.5 pb-2">
-                <label className="block text-xs font-black uppercase tracking-wider theme-text-muted">Developer Docs URL</label>
+                <label className="block text-xs font-black uppercase tracking-wider theme-text-muted">Documentation URL</label>
                 <input
                   type="url"
                   placeholder="https://docs.example.org"

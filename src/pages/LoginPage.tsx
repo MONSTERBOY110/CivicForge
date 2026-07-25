@@ -204,7 +204,7 @@ export const LoginPage: React.FC = () => {
                 </div>
                 <div>
                   <p className="font-black theme-text-main text-sm">TechForge (Arijit)</p>
-                  <p className="text-[10px] theme-text-muted font-bold mt-0.5">Developer building prototypes</p>
+                  <p className="text-[10px] theme-text-muted font-bold mt-0.5">Civic engineer building prototypes</p>
                 </div>
               </div>
               <span className="text-[9px] font-black uppercase bg-emerald-500/10 text-emerald-500 px-3 py-1 rounded-md border border-emerald-500/20">Dev</span>

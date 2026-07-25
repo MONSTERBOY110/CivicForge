@@ -126,7 +126,7 @@ export async function getBriefing(req: AuthenticatedRequest, res: Response, next
       return `Priority ${i + 1}: a ${g.category} issue at ${loc}, with an urgency of ${g.urgencyScore} out of 100, reported by ${reporters}.`;
     });
 
-    const englishScript = `Good day. Here is your constituency priority briefing. ${grievances.length} ${grievances.length === 1 ? 'issue requires' : 'issues require'} your attention. ${lines.join(' ')} Please open the priority matrix to verify these issues and match them with developer solutions.`;
+    const englishScript = `Good day. Here is your constituency priority briefing. ${grievances.length} ${grievances.length === 1 ? 'issue requires' : 'issues require'} your attention. ${lines.join(' ')} Please open the priority matrix to verify these issues and match them with civic engineer solutions.`;
 
     const script = await localizeScript(englishScript, lang);
     const audioBase64 = await synthesizeSpeech(script);

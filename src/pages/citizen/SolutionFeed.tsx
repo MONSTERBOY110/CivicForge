@@ -145,7 +145,7 @@ export const SolutionFeed: React.FC = () => {
             <div>
               <div className="flex items-center space-x-2"><TrendingUp className="w-4 h-4 theme-accent animate-pulse" /><span className="theme-accent text-xs font-black uppercase tracking-widest">Social Feed Layer</span></div>
               <h1 className="text-2xl font-black mt-2 theme-text-main uppercase tracking-tight">Community Solutions Feed</h1>
-              <p className="theme-text-muted text-xs mt-1 font-bold">Explore tech prototypes. Log feedback and vouch to support developers.</p>
+              <p className="theme-text-muted text-xs mt-1 font-bold">Explore tech prototypes. Log feedback and vouch to support civic engineers.</p>
             </div>
             <div className="flex items-center space-x-3 neumorphic-concave p-3 rounded-[20px]">
               <div className="text-center px-4"><span className="block text-xl font-black theme-accent">{solutions.length}</span><span className="text-[9px] font-black uppercase tracking-wider theme-text-muted">Listed</span></div>
@@ -159,7 +159,7 @@ export const SolutionFeed: React.FC = () => {
             <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full neumorphic-concave px-4 py-2.5 text-xs font-bold theme-text-main focus:outline-none appearance-none cursor-pointer">
               <option value="">All Categories</option>{categories.map(cat => (<option key={cat} value={cat}>{cat.toUpperCase()}</option>))}
             </select>
-            <input type="text" placeholder="Search by Developer Region..." value={region} onChange={(e) => setRegion(e.target.value)} className="w-full neumorphic-concave px-4 py-2.5 text-xs font-bold theme-text-main focus:outline-none" />
+            <input type="text" placeholder="Search by Civic Engineer Region..." value={region} onChange={(e) => setRegion(e.target.value)} className="w-full neumorphic-concave px-4 py-2.5 text-xs font-bold theme-text-main focus:outline-none" />
           </div>
         </div>
 

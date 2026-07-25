@@ -6,10 +6,19 @@ const SolutionSchema = new mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
   techStack: [{ type: String }],
-  targetCategory: { 
-    type: String, 
-    enum: ['water', 'road', 'electricity', 'sanitation', 'health', 'education', 'other'], 
-    required: true 
+  targetCategory: {
+    type: String,
+    enum: ['water', 'road', 'electricity', 'sanitation', 'health', 'education', 'other'],
+    required: true
+  },
+  // A civic engineer may solve a problem in software, in hardware, or both. This
+  // drives what the MP sees and, more importantly, how Gemini costs the funding
+  // blueprint: deploying one app is not the same budget as installing 400 sensors.
+  // Defaults to 'software' so solutions seeded before this field stay valid.
+  solutionType: {
+    type: String,
+    enum: ['software', 'hardware', 'hybrid'],
+    default: 'software'
   },
   repoUrl: { type: String },
   demoUrl: { type: String },

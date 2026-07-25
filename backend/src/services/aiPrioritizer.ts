@@ -4,16 +4,29 @@ import { evaluatePriorityAndSuitability } from './geminiService';
 
 let isRunning = false;
 
+/**
+ * How many grievances one sweep may score.
+ *
+ * The Gemini free tier allows only a handful of generate requests per minute and
+ * this daemon is the only unbounded consumer, so an uncapped sweep over every
+ * unscored grievance exhausts the quota and starves the calls a human is waiting
+ * on: the MP's funding blueprint and audio briefing. Capping the sweep leaves
+ * headroom for those. Raise it when running on a paid key.
+ */
+const MAX_PER_SWEEP = Number(process.env.AI_SCORING_BATCH || 3);
+
 export async function runAIPrioritizationTask() {
   if (isRunning) return;
   isRunning = true;
 
   try {
-    // Find grievances that are new or need re-evaluation
-    const grievances = await Grievance.find({ 
-      aiLastEvaluatedAt: null, 
-      status: { $in: ['pending_review', 'verified'] } 
-    });
+    // Highest urgency first, so the cap spends quota on what an MP sees at the top.
+    const grievances = await Grievance.find({
+      aiLastEvaluatedAt: null,
+      status: { $in: ['pending_review', 'verified'] }
+    })
+      .sort({ urgencyScore: -1 })
+      .limit(MAX_PER_SWEEP);
 
     for (const grievance of grievances) {
       // Fetch available solutions for this category
@@ -23,6 +36,12 @@ export async function runAIPrioritizationTask() {
       });
 
       const aiResult = await evaluatePriorityAndSuitability(grievance, solutions);
+
+      // A null result means Gemini was unavailable, most often a rate-limit. The
+      // grievance keeps aiLastEvaluatedAt = null and is retried next tick, so stop
+      // the sweep here rather than spending the remaining quota on calls that will
+      // fail the same way.
+      if (!aiResult) break;
 
       if (aiResult) {
         // Update Grievance

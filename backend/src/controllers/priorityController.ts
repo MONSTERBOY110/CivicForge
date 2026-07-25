@@ -92,10 +92,26 @@ function resolveBriefingLanguage(raw: unknown): BriefingLanguage {
     : 'en') as BriefingLanguage;
 }
 
-/** English scripts pass through untouched; anything else goes via Gemini. */
-async function localizeScript(script: string, lang: BriefingLanguage): Promise<string> {
-  if (lang === 'en') return script;
-  return translateText(script, BRIEFING_LANGUAGES[lang]);
+/**
+ * English scripts pass through untouched; anything else goes via Gemini.
+ *
+ * Reports the language actually produced, which is not always the one asked for:
+ * if translation is unavailable (rate limit, missing key) the briefing still
+ * plays, but in English, and the caller must know that so the UI can say so
+ * instead of highlighting Hindi over English audio.
+ */
+async function localizeScript(
+  script: string,
+  lang: BriefingLanguage
+): Promise<{ script: string; lang: BriefingLanguage; translated: boolean }> {
+  if (lang === 'en') return { script, lang: 'en', translated: true };
+
+  const translated = await translateText(script, BRIEFING_LANGUAGES[lang]);
+  if (!translated) {
+    console.warn(`Briefing translation to ${BRIEFING_LANGUAGES[lang]} unavailable, delivering English instead.`);
+    return { script, lang: 'en', translated: false };
+  }
+  return { script: translated, lang, translated: true };
 }
 
 /**
@@ -108,7 +124,7 @@ async function localizeScript(script: string, lang: BriefingLanguage): Promise<s
  */
 export async function getBriefing(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   try {
-    const lang = resolveBriefingLanguage(req.query.lang);
+    const requestedLang = resolveBriefingLanguage(req.query.lang);
 
     const grievances = await Grievance.find({ status: { $in: ['pending_review', 'verified', 'matched'] } })
       .sort({ aiPriorityScore: -1, urgencyScore: -1 })
@@ -116,8 +132,15 @@ export async function getBriefing(req: AuthenticatedRequest, res: Response, next
       .exec();
 
     if (!grievances.length) {
-      const emptyScript = await localizeScript('There are no active grievances to brief at this time.', lang);
-      return res.json({ success: true, audioBase64: null, script: emptyScript, lang });
+      const empty = await localizeScript('There are no active grievances to brief at this time.', requestedLang);
+      return res.json({
+        success: true,
+        audioBase64: null,
+        script: empty.script,
+        lang: empty.lang,
+        requestedLang,
+        translated: empty.translated
+      });
     }
 
     const lines = grievances.map((g: any, i: number) => {
@@ -128,9 +151,18 @@ export async function getBriefing(req: AuthenticatedRequest, res: Response, next
 
     const englishScript = `Good day. Here is your constituency priority briefing. ${grievances.length} ${grievances.length === 1 ? 'issue requires' : 'issues require'} your attention. ${lines.join(' ')} Please open the priority matrix to verify these issues and match them with civic engineer solutions.`;
 
-    const script = await localizeScript(englishScript, lang);
-    const audioBase64 = await synthesizeSpeech(script);
-    return res.json({ success: true, audioBase64, script, lang });
+    const localized = await localizeScript(englishScript, requestedLang);
+    const audioBase64 = await synthesizeSpeech(localized.script);
+    return res.json({
+      success: true,
+      audioBase64,
+      script: localized.script,
+      // The language actually spoken, which may differ from requestedLang when
+      // translation was unavailable. The player keys its UI off this, not the request.
+      lang: localized.lang,
+      requestedLang,
+      translated: localized.translated
+    });
   } catch (error) {
     next(error);
   }

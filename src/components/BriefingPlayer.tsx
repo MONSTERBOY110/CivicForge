@@ -78,7 +78,15 @@ export const BriefingPlayer: React.FC = () => {
     try {
       const res = await axiosClient.get(`/api/priority-matrix/briefing?lang=${target}`);
       if (res.data.success && res.data.audioBase64) {
-        cacheRef.current[target] = res.data.audioBase64;
+        // Trust the language the server actually produced. Translation can be
+        // unavailable (rate limit), in which case English is spoken and saying
+        // otherwise would leave Hindi highlighted over English audio.
+        const delivered: Lang = res.data.lang === 'hi' ? 'hi' : 'en';
+        if (delivered !== target) {
+          toast.error('Hindi is unavailable right now, playing English instead.');
+        }
+        setLang(delivered);
+        cacheRef.current[delivered] = res.data.audioBase64;
         playBase64(res.data.audioBase64);
       } else {
         // ElevenLabs unconfigured, or nothing to brief: show the script instead.

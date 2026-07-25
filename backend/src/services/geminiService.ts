@@ -17,8 +17,8 @@ let aiInstance: GoogleGenAI | null = null;
  * Free-tier request quota is per project PER MODEL, so these two tiers also draw
  * from separate buckets. Override either without touching code.
  */
-const FAST_MODEL = process.env.GEMINI_FAST_MODEL || 'gemini-2.5-flash';
-const QUALITY_MODEL = process.env.GEMINI_QUALITY_MODEL || 'gemini-2.5-flash';
+const FAST_MODEL = process.env.GEMINI_FAST_MODEL || 'gemini-3.5-flash-lite';
+const QUALITY_MODEL = process.env.GEMINI_QUALITY_MODEL || 'gemini-flash-lite-latest';
 
 function getGeminiClient(): GoogleGenAI {
   if (!aiInstance) {
@@ -271,28 +271,32 @@ export async function generateBlueprint(
  * can speak the summary in the language the MP picked.
  *
  * The output is fed straight to text-to-speech, so the prompt forbids any
- * preamble, quoting or markdown. Degrades gracefully like the rest of this
- * service: returns the original text when there is no API key or on error, so
- * the briefing still speaks (in English) rather than failing.
+ * preamble, quoting or markdown.
+ *
+ * Returns null when the translation could not be produced (no API key, rate
+ * limit, empty reply). It deliberately does NOT fall back to the original text:
+ * callers must be able to tell that they are about to speak English, otherwise
+ * the UI highlights Hindi while English plays and the failure is invisible.
  */
-export async function translateText(text: string, targetLanguage: string): Promise<string> {
+export async function translateText(text: string, targetLanguage: string): Promise<string | null> {
   const client = getGeminiClient();
-  if (!client || !text?.trim()) return text;
+  if (!client || !text?.trim()) return null;
 
   try {
     const response = await client.models.generateContent({
       model: FAST_MODEL,
       contents: `Translate the text below into ${targetLanguage}.
       It will be read aloud by a text-to-speech engine, so reply with ONLY the translated text: no preamble, no quotation marks, no markdown.
-      Keep numbers as digits and keep place names recognisable.
+      Translate EVERY word into the native script of ${targetLanguage}. Do not leave ordinary words in Latin script.
+      Keep numbers as digits. Place names may stay in their usual form.
 
       Text: "${text}"`
     });
 
-    return response.text?.trim() || text;
+    return response.text?.trim() || null;
   } catch (error) {
     console.error('Gemini translation error:', error);
-    return text;
+    return null;
   }
 }
 

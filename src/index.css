@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+/* ========================================================
+   THEME ENGINE: DYNAMIC VARIABLES
+   ======================================================== */
+
+/* 1. CITIZEN THEME (Default - Light Tinted Mint Green) */
+:root {
+  --bg-canvas: #EAF0EC;
+  --bg-card: #EDF3F0;
+  --accent-primary: #2E6A4F;
+  --text-main: #2D3A34;
+  --text-muted: #708278;
+  
+  --shadow-convex: 12px 12px 24px 0px #CBD6CE, -12px -12px 24px 0px #FFFFFF;
+  --shadow-concave: inset 6px 6px 12px 0px rgba(90, 110, 98, 0.2), inset -6px -6px 12px 0px #FFFFFF;
+}
+
+/* 2. DEVELOPER THEME (Dark Charcoal Code-Tech) */
+[data-theme="developer"] {
+  --bg-canvas: #1C1E22;
+  --bg-card: #23272A;
+  --accent-primary: #00E676; /* Cyber Neon Mint */
+  --text-main: #ECEFF1;
+  --text-muted: #607D8B;
+  
+  --shadow-convex: 10px 10px 20px 0px #111215, -10px -10px 20px 0px #2D3239;
+  --shadow-concave: inset 5px 5px 12px 0px #0F1012, inset -5px -5px 12px 0px #2A2E34;
+}
+
+/* 3. MP/EVALUATOR THEME (Premium Dark Noir & Cream) */
+[data-theme="mp"] {
+  --bg-canvas: #0A0B0D;
+  --bg-card: #14161A;
+  --accent-primary: #F5F2EB; /* Luxurious Cream */
+  --text-main: #E5E0D8;
+  --text-muted: #5C6370;
+  
+  --shadow-convex: 12px 12px 24px 0px #030405, -12px -12px 24px 0px #21252C;
+  --shadow-concave: inset 6px 6px 14px 0px #020203, inset -6px -6px 14px 0px #22262E;
+}
+
+/* ========================================================
+   GLOBAL BASE STYLES
+   ======================================================== */
+body {
+  background-color: var(--bg-canvas);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Structural Background Utilities */
+.theme-bg-canvas { background-color: var(--bg-canvas); }
+.theme-bg-card { background-color: var(--bg-card); }
+.theme-text-main { color: var(--text-main); }
+.theme-text-muted { color: var(--text-muted); }
+.theme-accent { color: var(--accent-primary); }
+
+/* ========================================================
+   NEUMORPHIC MODULE UTILITIES
+   ======================================================== */
+.neumorphic-convex {
+  background-color: var(--bg-card);
+  box-shadow: var(--shadow-convex);
+  transition: all 0.3s ease;
+}
+
+.neumorphic-concave {
+  background-color: var(--bg-canvas); /* Inset surfaces use deeper canvas color */
+  box-shadow: var(--shadow-concave);
+  border: none !important;
+  outline: none !important;
+  color: var(--text-main);
+  transition: all 0.3s ease;
+}
+
+/* Button & Action Triggers */
+.neumorphic-btn-accent {
+  background-color: var(--accent-primary);
+  color: var(--bg-canvas); /* Contrast against accent */
+  box-shadow: var(--shadow-convex);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.neumorphic-btn-accent:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.neumorphic-btn-accent:active {
+  box-shadow: var(--shadow-concave);
+  transform: translateY(2px);
+}
+
+/* ========================================================
+   UTILITIES & ANIMATIONS
+   ======================================================== */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-canvas); }
+::-webkit-scrollbar-thumb { 
+  background: var(--text-muted); 
+  border-radius: 6px; 
+  border: 2px solid var(--bg-canvas); 
+}
+
+.leaflet-container { font-family: var(--font-sans) !important; }
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in { animation: fade-in 0.4s ease-out both; }
+
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar { display: none; }

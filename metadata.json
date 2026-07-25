@@ -1,0 +1,6 @@
+{
+  "name": "CivicForge",
+  "description": "A dual-engine civic-tech platform where citizens submit grievances, developers build prototypes, and MPs prioritize issues and auto-generate funding proposals.",
+  "requestFramePermissions": ["geolocation", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

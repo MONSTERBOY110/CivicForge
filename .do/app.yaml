@@ -1,0 +1,36 @@
+# DigitalOcean App Platform spec for CivicForge.
+# Deploy: DO dashboard → Apps → Create → "Import from App Spec" (or `doctl apps create --spec .do/app.yaml`).
+# Fill the SECRET-typed env values (Mongo/JWT/Gemini/ElevenLabs) in the dashboard.
+name: civicforge
+region: blr # Bangalore — closest DO region to Kolkata; change if unavailable
+services:
+  - name: web
+    github:
+      repo: Chandansaha2005/CIVICFORGE
+      branch: main
+      deploy_on_push: true
+    build_command: npm run build
+    run_command: npm start
+    environment_slug: node-js
+    instance_size_slug: basic-xxs
+    instance_count: 1
+    http_port: 8080 # server.ts reads process.env.PORT (DO injects 8080) and binds 0.0.0.0
+    health_check:
+      http_path: /api/health
+    envs:
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_DB_NAME
+        value: CivicForge
+      - key: JWT_EXPIRES_IN
+        value: "7d"
+      - key: MONGO_URI
+        type: SECRET
+      - key: JWT_SECRET
+        type: SECRET
+      - key: GEMINI_API_KEY
+        type: SECRET
+      - key: ELEVENLABS_API_KEY
+        type: SECRET
+      - key: ELEVENLABS_VOICE_ID
+        type: SECRET

@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Install & Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        # npm install (not npm ci) so CI stays green even if package.json is
+        # tweaked without regenerating the lock — pragmatic for fast iteration.
+        run: npm install
+
+      - name: Build (frontend + server bundle)
+        run: npm run build

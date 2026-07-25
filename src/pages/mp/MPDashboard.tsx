@@ -4,6 +4,7 @@ import { HeatmapView } from '../../components/HeatmapView';
 import { PriorityMatrixTable } from '../../components/PriorityMatrixTable';
 import { SolutionCard } from '../../components/SolutionCard';
 import { BriefingPlayer } from '../../components/BriefingPlayer';
+import { ExecutionPipeline, PipelineStage } from '../../components/ExecutionPipeline';
 import {
   Landmark, Map, TableProperties, Cpu, FileText, CheckCircle,
   Loader2, Sparkles, ArrowRight, ShieldCheck, Check, IndianRupee,
@@ -29,6 +30,7 @@ interface Blueprint {
   _id: string; mp: { name: string }; grievanceCluster: Grievance[];
   matchedSolution: Solution | null; generatedTitle: string; generatedSummary: string;
   estimatedBudget: string; status: 'draft' | 'approved'; createdAt: string;
+  executionPipeline?: PipelineStage[]; executionStatus?: string;
 }
 
 type TabType = 'heatmap' | 'priority' | 'matchmaker' | 'blueprints';
@@ -437,6 +439,15 @@ export const MPDashboard: React.FC = () => {
                       <div className="whitespace-pre-wrap leading-relaxed text-sm font-medium font-mono neumorphic-concave theme-text-main p-6 rounded-3xl max-h-96 overflow-y-auto custom-scrollbar border border-white/5">
                         {b.generatedSummary}
                       </div>
+
+                      {/* Execution Pipeline: AI-sequenced work stages, advanced by the MP */}
+                      <ExecutionPipeline
+                        blueprintId={b._id}
+                        blueprintStatus={b.status}
+                        executionStatus={b.executionStatus || 'not_started'}
+                        stages={b.executionPipeline || []}
+                        onChanged={() => { fetchBlueprints(); fetchGrievances(); }}
+                      />
 
                       {/* Approval Actions */}
                       <div className="flex justify-between items-center pt-4">

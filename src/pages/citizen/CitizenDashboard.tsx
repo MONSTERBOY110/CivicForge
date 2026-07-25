@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { GrievanceForm } from '../../components/GrievanceForm';
 import axiosClient from '../../api/axiosClient';
-import { ShieldAlert, ListTodo, MapPin, Calendar, Clock, Volume2, PlusCircle } from 'lucide-react';
+import { ShieldAlert, ListTodo, MapPin, Calendar, Clock, Volume2, PlusCircle, Landmark } from 'lucide-react';
+
+/** Constituency-wide counters from GET /api/grievances/stats. */
+interface CommunityStats {
+  reported: number;
+  open: number;
+  inProgress: number;
+  resolved: number;
+}
 
 interface Grievance {
   _id: string;
@@ -18,6 +26,7 @@ interface Grievance {
 
 export const CitizenDashboard: React.FC = () => {
   const [myGrievances, setMyGrievances] = useState<Grievance[]>([]);
+  const [communityStats, setCommunityStats] = useState<CommunityStats | null>(null);
   const [loading, setLoading] = useState(true);
 
   const fetchMyGrievances = async () => {
@@ -34,8 +43,23 @@ export const CitizenDashboard: React.FC = () => {
     }
   };
 
-  useEffect(() => {
+  // Constituency-wide transparency counters; failure just hides the strip.
+  const fetchCommunityStats = async () => {
+    try {
+      const response = await axiosClient.get('/api/grievances/stats');
+      if (response.data.success) setCommunityStats(response.data.stats);
+    } catch (err) {
+      console.error('Failed to load community stats:', err);
+    }
+  };
+
+  const refreshAll = () => {
     fetchMyGrievances();
+    fetchCommunityStats();
+  };
+
+  useEffect(() => {
+    refreshAll();
   }, []);
 
   // Adapted badges to use clean Tailwind colors that compliment the mint-green/charcoal themes
@@ -92,6 +116,45 @@ export const CitizenDashboard: React.FC = () => {
           </div>
         </div>
 
+        {/* Constituency Transparency Strip: what the whole community reported vs.
+            what the MP's funded projects have actually delivered. */}
+        {communityStats && communityStats.reported > 0 && (
+          <div className="neumorphic-convex rounded-4xl p-6 space-y-4 animate-fade-in" id="community-stats" style={{ animationDelay: '50ms' }}>
+            <div className="flex items-center justify-center space-x-2">
+              <Landmark className="w-4 h-4 theme-accent" />
+              <h2 className="text-xs font-black theme-text-muted uppercase tracking-widest">Our Constituency, In Numbers</h2>
+            </div>
+
+            <div className="grid grid-cols-3 gap-4">
+              <div className="text-center neumorphic-concave px-4 py-3 rounded-[20px]">
+                <span className="block text-2xl font-black theme-text-main">{communityStats.reported}</span>
+                <span className="text-[9px] font-black uppercase tracking-wider theme-text-muted">Reported</span>
+              </div>
+              <div className="text-center neumorphic-concave px-4 py-3 rounded-[20px]">
+                <span className="block text-2xl font-black text-blue-600">{communityStats.inProgress}</span>
+                <span className="text-[9px] font-black uppercase tracking-wider theme-text-muted">In Progress</span>
+              </div>
+              <div className="text-center neumorphic-concave px-4 py-3 rounded-[20px]">
+                <span className="block text-2xl font-black text-emerald-600">{communityStats.resolved}</span>
+                <span className="text-[9px] font-black uppercase tracking-wider theme-text-muted">Resolved</span>
+              </div>
+            </div>
+
+            {/* Resolved ratio bar */}
+            <div className="space-y-1.5">
+              <div className="h-2 neumorphic-concave rounded-full overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-emerald-500 transition-all duration-700"
+                  style={{ width: `${Math.round((communityStats.resolved / communityStats.reported) * 100)}%` }}
+                />
+              </div>
+              <p className="text-[10px] theme-text-muted font-bold text-center">
+                {Math.round((communityStats.resolved / communityStats.reported) * 100)}% of community reports resolved through funded projects
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* The Action Box (Create Post Style) */}
         <div className="neumorphic-convex rounded-4xl p-6 sm:p-8 animate-fade-in" style={{ animationDelay: '100ms' }}>
           <div className="flex items-center space-x-2 mb-6">
@@ -101,7 +164,7 @@ export const CitizenDashboard: React.FC = () => {
             <h2 className="text-lg font-black theme-text-main">Lodge a New Grievance</h2>
           </div>
           {/* Note: We will need to update GrievanceForm.tsx next to match this style perfectly */}
-          <GrievanceForm onSuccess={fetchMyGrievances} />
+          <GrievanceForm onSuccess={refreshAll} />
         </div>
 
         {/* Historic Submissions Timeline Feed */}

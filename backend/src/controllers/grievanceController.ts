@@ -183,6 +183,32 @@ export async function getAllGrievances(req: AuthenticatedRequest, res: Response,
   }
 }
 
+/**
+ * Constituency-wide transparency counters for the citizen dashboard: how many
+ * problems the community has reported, how many are inside a funded project
+ * (matched), and how many are resolved. Counts only, no grievance content, so it
+ * is safe to expose to every authenticated role (citizens cannot list all
+ * grievances, and should not need to just to see the totals).
+ */
+export async function getGrievanceStats(req: AuthenticatedRequest, res: Response, next: NextFunction) {
+  try {
+    const byStatus: Record<string, number> = {};
+    const groups = await Grievance.aggregate([
+      { $group: { _id: '$status', count: { $sum: 1 } } }
+    ]);
+    for (const g of groups) byStatus[g._id] = g.count;
+
+    const resolved = byStatus['resolved'] || 0;
+    const inProgress = byStatus['matched'] || 0;
+    const open = (byStatus['pending_review'] || 0) + (byStatus['verified'] || 0);
+    const reported = resolved + inProgress + open;
+
+    return res.json({ success: true, stats: { reported, open, inProgress, resolved } });
+  } catch (error) {
+    next(error);
+  }
+}
+
 export async function getGrievancesHeatmap(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   try {
     // Only return required minimal payload for high-performance map rendering

@@ -282,7 +282,8 @@ export const MPDashboard: React.FC = () => {
                         {selectedGrievance.category}
                       </span>
                       <span className="text-xs font-black theme-accent flex items-center gap-1.5">
-                        <Sparkles className="w-4 h-4" /> AI Priority: {selectedGrievance.urgencyScore}/100
+                        <Sparkles className="w-4 h-4" /> AI Priority: {selectedGrievance.aiPriorityScore ?? 0}/100
+                        <span className="theme-text-muted font-bold">· Urgency {selectedGrievance.urgencyScore}/100</span>
                       </span>
                     </div>
 

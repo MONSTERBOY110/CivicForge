@@ -62,6 +62,11 @@ Thumbs.db
 report.md
 *.md
 !README.md
+
+# Citizen-uploaded media. Normally transient (Cloudinary), but files persist here
+# when the Cloudinary fallback serves them off local disk.
+uploads/
 .eslintcache
 help
 .vite/
+.playwright-mcp

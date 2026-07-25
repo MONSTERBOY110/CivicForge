@@ -266,7 +266,7 @@ async function seed() {
       // Calculate gap score
       const { gapScore } = getInfrastructureGap(spec.lat, spec.lng, spec.category);
 
-      // Semantic embedding (Gemini) for Atlas Vector Search — null if no API key.
+      // Semantic embedding (Gemini) for Atlas Vector Search, null if no API key.
       const embedding = await generateEmbedding(spec.description);
 
       const g = await Grievance.create({

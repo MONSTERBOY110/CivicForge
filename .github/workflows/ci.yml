@@ -21,7 +21,7 @@ jobs:
 
       - name: Install dependencies
         # npm install (not npm ci) so CI stays green even if package.json is
-        # tweaked without regenerating the lock — pragmatic for fast iteration.
+        # tweaked without regenerating the lock. Pragmatic for fast iteration.
         run: npm install
 
       - name: Build (frontend + server bundle)

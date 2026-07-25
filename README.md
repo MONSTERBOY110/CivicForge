@@ -9,7 +9,7 @@
 
 CivicForge bridges the operational gap between parliamentary planning and real-time public demands by linking citizens, developers, and representatives on a unified digital canvas. By converting unstructured public distress signals into quantified geographic demands, the system automatically pairs localized infrastructure deficits with ready-to-deploy open-source solutions.
 
-The platform utilizes a dynamic **Tri-Theme "Bento" Design System** that completely transforms the user interface—colors, shadow depth, and layouts—based on the authenticated user's role.
+The platform utilizes a dynamic **Tri-Theme "Bento" Design System** that completely transforms the user interface (colors, shadow depth, and layouts) based on the authenticated user's role.
 
 ---
 
@@ -47,13 +47,13 @@ The platform operates on a three-layer system designed for transparency, speed, 
 ### 1. Citizen Ingestion Layer (The Input)
 * **Omnichannel Submissions:** Residents lodge geotagged infrastructure complaints using text, photos, or raw voice notes.
 * **AI Processing:** Google Gemini transcribes & translates multilingual voice notes, extracts category tags, scores emotional distress, and generates a semantic embedding of every complaint.
-* **Spoken Confirmation:** ElevenLabs reads back a confirmation aloud — accessibility for citizens who can't easily read a screen.
+* **Spoken Confirmation:** ElevenLabs reads back a confirmation aloud, for accessibility when a citizen can't easily read a screen.
 * **High-Precision Geotagging:** Locks exact coordinates for every grievance.
 
 ### 2. MP Priority Matrix (The Triage)
-* **Dual Clustering — Geo + Semantic:** MongoDB Atlas `2dsphere` geospatial queries group reports by location, while **Atlas Vector Search** groups them by *meaning* — merging duplicate complaints about the same problem even when worded completely differently, so recurring issues stack urgency. Reports are fused with local census datasets to compute infrastructure gap scores.
+* **Dual Clustering (Geo + Semantic):** MongoDB Atlas `2dsphere` geospatial queries group reports by location, while **Atlas Vector Search** groups them by *meaning*, merging duplicate complaints about the same problem even when worded completely differently, so recurring issues stack urgency. Reports are fused with local census datasets to compute infrastructure gap scores.
 * **Distress Heatmap:** Algorithmically ranks and visualizes infrastructure issues into a live, urgency-scaled spatial heatmap for Members of Parliament.
-* **AI Audio Briefing:** One click has ElevenLabs read the top-priority grievances aloud — a hands-free executive briefing.
+* **AI Audio Briefing:** One click has ElevenLabs read the top-priority grievances aloud, a hands-free executive briefing.
 
 ### 3. Developer Marketplace (The Execution)
 * **Solution Registry:** Local tech talent registers functional, open-source prototypes (apps, IoT hardware) tagged to specific municipal categories.
@@ -71,13 +71,13 @@ The platform operates on a three-layer system designed for transparency, speed, 
 * Framer Motion · Lucide React
 
 **Backend & Database**
-* Node.js & Express.js (single process — serves the SPA **and** the API)
-* **MongoDB Atlas** — `2dsphere` geospatial indexing **and** Atlas Vector Search
+* Node.js & Express.js (single process that serves the SPA **and** the API)
+* **MongoDB Atlas**: `2dsphere` geospatial indexing **and** Atlas Vector Search
 * JWT + bcrypt authentication · Cloudinary media storage
 
 **Artificial Intelligence & Voice**
-* **Google Gemini** — multimodal voice transcription, categorization, priority scoring, funding-proposal generation, and `text-embedding-004` semantic embeddings
-* **ElevenLabs** — text-to-speech (citizen confirmations + MP audio briefings)
+* **Google Gemini**: multimodal voice transcription, categorization, priority scoring, funding-proposal generation, and `text-embedding-004` semantic embeddings
+* **ElevenLabs**: text-to-speech (citizen confirmations + MP audio briefings)
 
 **Deployment**
 * **DigitalOcean App Platform** (spec in `.do/app.yaml`)
@@ -88,7 +88,7 @@ The platform operates on a three-layer system designed for transparency, speed, 
 
 ### Prerequisites
 * Node.js (v18 or higher)
-* A **MongoDB Atlas** cluster (M0 free tier is enough) — needed for `2dsphere` geo + Vector Search
+* A **MongoDB Atlas** cluster (M0 free tier is enough), needed for `2dsphere` geo + Vector Search
 * API keys: **Google Gemini** (required for AI), **ElevenLabs** (optional, for voice)
 
 ### Installation
@@ -143,5 +143,5 @@ The platform operates on a three-layer system designed for transparency, speed, 
 
 <div align='center'>
 
-***CivicForge** — Built for the community, by the community.*
+***CivicForge**, built for the community, by the community.*
 </div>

@@ -1,7 +1,7 @@
 import { Grievance } from '../models/Grievance';
 
 /**
- * Atlas Vector Search — semantic grievance clustering.
+ * Atlas Vector Search: semantic grievance clustering.
  *
  * Given a grievance's Gemini embedding, finds OTHER grievances in the same
  * category that describe the *same underlying problem* even when the wording is
@@ -18,7 +18,7 @@ import { Grievance } from '../models/Grievance';
  * embedding is null, it returns [] and the caller clusters by geography alone.
  */
 const VECTOR_INDEX = 'grievance_vector_index';
-const SIMILARITY_THRESHOLD = 0.75; // cosine score cutoff — tune on demo data
+const SIMILARITY_THRESHOLD = 0.75; // cosine score cutoff, tune on demo data
 
 export async function findSimilarGrievanceIds(
   embedding: number[] | null,
@@ -48,7 +48,7 @@ export async function findSimilarGrievanceIds(
       .map((r: any) => r._id)
       .filter((id: any) => !excludeStr || id.toString() !== excludeStr);
   } catch (error) {
-    // Missing/unbuilt vector index, unsupported tier, etc. — fall back to geo-only.
+    // Missing/unbuilt vector index, unsupported tier, etc. Fall back to geo-only.
     console.warn('[vectorSearch] unavailable, skipping semantic clustering:', (error as any)?.message);
     return [];
   }

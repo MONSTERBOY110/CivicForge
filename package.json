@@ -13,6 +13,7 @@
     "preview": "vite preview",
     "clean": "rm -rf dist server.js local_database.json",
     "seed": "tsx backend/src/seed/seed.ts",
+    "db:check": "tsx backend/src/scripts/checkDbConnection.ts",
     "lint": "tsc --noEmit"
   },
   "dependencies": {

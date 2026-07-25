@@ -6,6 +6,14 @@
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
+/* Tailwind's stock `dark:` variant follows the OS colour scheme, but this app
+   picks its palette from the authenticated role via <html data-theme="...">.
+   Rebind `dark:` to the two dark themes (developer + mp) so the existing
+   `bg-black/5 dark:bg-white/5` pairs actually apply: black overlays turn to mud
+   on a dark canvas, white ones read correctly. The citizen theme is light, so it
+   deliberately matches nothing here and keeps the un-prefixed values. */
+@custom-variant dark (&:where([data-theme="developer"], [data-theme="developer"] *, [data-theme="mp"], [data-theme="mp"] *));
+
 /* ========================================================
    THEME ENGINE: DYNAMIC VARIABLES
    ======================================================== */

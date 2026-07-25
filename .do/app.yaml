@@ -2,11 +2,11 @@
 # Deploy: DO dashboard → Apps → Create → "Import from App Spec" (or `doctl apps create --spec .do/app.yaml`).
 # Fill the SECRET-typed env values (Mongo/JWT/Gemini/ElevenLabs) in the dashboard.
 name: civicforge
-region: blr # Bangalore — closest DO region to Kolkata; change if unavailable
+region: blr # Bangalore, closest DO region to Kolkata; change if unavailable
 services:
   - name: web
     github:
-      repo: Chandansaha2005/CIVICFORGE
+      repo: MONSTERBOY110/CivicForge
       branch: main
       deploy_on_push: true
     build_command: npm run build

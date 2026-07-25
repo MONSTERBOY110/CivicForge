@@ -144,11 +144,11 @@ export const LandingPage: React.FC = () => {
       {/* SECTION 1: HERO DISPLAY */}
       <motion.section 
         initial="hidden" animate="visible" variants={staggerContainer}
-        className="relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 z-10"
+        className="relative pt-10 sm:pt-12 pb-16 sm:pb-20 px-4 sm:px-6 lg:px-8 z-10"
       >
         <div className="max-w-5xl mx-auto text-center flex flex-col items-center">
           
-          <motion.div variants={fadeInUp} className="inline-flex items-center space-x-2 bg-[#F0F2F5] px-5 py-2.5 rounded-full mb-8 shadow-[6px_6px_12px_#D1D9E6,-6px_-6px_12px_#FFFFFF] border border-white/40">
+          <motion.div variants={fadeInUp} className="inline-flex items-center space-x-2 bg-[#F0F2F5] px-5 py-2.5 rounded-full mb-6 shadow-[6px_6px_12px_#D1D9E6,-6px_-6px_12px_#FFFFFF] border border-white/40">
             <Sparkles className="w-4 h-4 text-[#F97316] animate-pulse" />
             <span className="text-[10px] font-black text-[#111827] uppercase tracking-widest">
               AI-Powered Constituency Development Planning
@@ -163,14 +163,14 @@ export const LandingPage: React.FC = () => {
             PROGRESS.
           </motion.h1>
 
-          <motion.div variants={scaleIn} className="w-24 h-1.5 bg-[#F97316] my-8 rounded-full shadow-sm"></motion.div>
+          <motion.div variants={scaleIn} className="w-24 h-1.5 bg-[#F97316] my-6 rounded-full shadow-sm"></motion.div>
 
           <motion.p variants={fadeInUp} className="text-sm sm:text-base text-[#4B5563] font-medium leading-relaxed max-w-3xl">
             A dual-engine civic-tech ecosystem. Citizens lodge localized infrastructure grievances; 
             developers construct deployable software prototypes, and MPs harness data fusion to prioritize funding-ready projects.
           </motion.p>
 
-          <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-12 w-full sm:w-auto">
+          <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-10 w-full sm:w-auto">
             <Link to="/register" className="w-full sm:w-auto text-center text-xs font-black text-white bg-[#F97316] hover:bg-[#ea6305] px-10 py-4 rounded-full transition-all uppercase tracking-widest shadow-[6px_6px_15px_rgba(249,115,22,0.35),-6px_-6px_15px_#FFFFFF] hover:-translate-y-0.5">
               Create Your Account
             </Link>

@@ -12,18 +12,18 @@ import axios from 'axios';
  *   - The MP "Audio Briefing" that reads top-priority grievances aloud
  *
  * Degrades gracefully: returns null (never throws) when ELEVENLABS_API_KEY /
- * ELEVENLABS_VOICE_ID are missing or the API errors — callers simply skip audio.
+ * ELEVENLABS_VOICE_ID are missing or the API errors; callers simply skip audio.
  *
  * Env:
- *   ELEVENLABS_API_KEY   — your ElevenLabs API key
- *   ELEVENLABS_VOICE_ID  — a voice id from your ElevenLabs voice library
+ *   ELEVENLABS_API_KEY:   your ElevenLabs API key
+ *   ELEVENLABS_VOICE_ID:  a voice id from your ElevenLabs voice library
  */
 export async function synthesizeSpeech(text: string): Promise<string | null> {
   const apiKey = process.env.ELEVENLABS_API_KEY;
   const voiceId = process.env.ELEVENLABS_VOICE_ID;
 
   if (!apiKey || !voiceId) {
-    console.warn('ElevenLabs not configured (ELEVENLABS_API_KEY / ELEVENLABS_VOICE_ID) — skipping voice synthesis.');
+    console.warn('ElevenLabs not configured (ELEVENLABS_API_KEY / ELEVENLABS_VOICE_ID), skipping voice synthesis.');
     return null;
   }
   if (!text || !text.trim()) return null;

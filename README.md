@@ -9,8 +9,6 @@
 
 CivicForge bridges the operational gap between parliamentary planning and real-time public demands by linking citizens, civic engineers, and representatives on a unified digital canvas. By converting unstructured public distress signals into quantified geographic demands, the system automatically pairs localized infrastructure deficits with ready-to-deploy open-source solutions.
 
-The platform utilizes a dynamic **Tri-Theme "Bento" Design System** that completely transforms the user interface (colors, shadow depth, and layouts) based on the authenticated user's role.
-
 ---
 
 ## 🖼️ Visual Interface & Tri-Theme Architecture

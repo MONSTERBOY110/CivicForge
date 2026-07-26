@@ -77,9 +77,6 @@ The platform operates on a three-layer system designed for transparency, speed, 
 * **Google Gemini**: multimodal voice transcription, categorization, priority scoring, funding-proposal generation, and `text-embedding-004` semantic embeddings
 * **ElevenLabs**: text-to-speech (citizen confirmations + MP audio briefings)
 
-**Deployment**
-* **DigitalOcean App Platform** (spec in `.do/app.yaml`)
-
 ---
 
 ## 🚀 Getting Started

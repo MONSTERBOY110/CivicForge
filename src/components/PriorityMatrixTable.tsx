@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ArrowUpDown, MapPin, Sparkles, Check, RefreshCw } from 'lucide-react';
+import { GrievanceMedia } from './GrievanceMedia';
 
 interface Grievance {
   _id: string; category: string; description: string; inputType: string; mediaUrl: string;
@@ -185,9 +186,13 @@ export const PriorityMatrixTable: React.FC<PriorityMatrixTableProps> = ({
                               {item.status.replace('_', ' ')}
                             </span>
                           </div>
-                          <p className={`text-sm font-bold theme-text-main line-clamp-2 leading-relaxed ${isResolved ? 'line-through opacity-50' : ''}`}>
-                            {item.description}
-                          </p>
+                          <div className="flex items-start gap-2.5">
+                            {/* Citizen's photo evidence, thumbnail-sized for the dense matrix */}
+                            <GrievanceMedia inputType={item.inputType} mediaUrl={item.mediaUrl} compact />
+                            <p className={`text-sm font-bold theme-text-main line-clamp-2 leading-relaxed ${isResolved ? 'line-through opacity-50' : ''}`}>
+                              {item.description}
+                            </p>
+                          </div>
                           <div className="flex items-center space-x-1.5 theme-text-muted text-xs">
                             <MapPin className="w-3.5 h-3.5 theme-accent" />
                             <span className="truncate font-bold">{item.location?.address}</span>

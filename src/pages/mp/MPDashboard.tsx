@@ -5,6 +5,7 @@ import { PriorityMatrixTable } from '../../components/PriorityMatrixTable';
 import { SolutionCard } from '../../components/SolutionCard';
 import { BriefingPlayer } from '../../components/BriefingPlayer';
 import { ExecutionPipeline, PipelineStage } from '../../components/ExecutionPipeline';
+import { GrievanceMedia } from '../../components/GrievanceMedia';
 import {
   Landmark, Map, TableProperties, Cpu, FileText, CheckCircle,
   Loader2, Sparkles, ArrowRight, ShieldCheck, Check, IndianRupee,
@@ -268,6 +269,9 @@ export const MPDashboard: React.FC = () => {
                         <MapPin className="w-3.5 h-3.5" /> Located near: {selectedGrievance.location?.address}
                       </p>
                     </div>
+
+                    {/* Photo evidence / original voice note attached by the citizen */}
+                    <GrievanceMedia inputType={selectedGrievance.inputType} mediaUrl={selectedGrievance.mediaUrl} />
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       <div className="neumorphic-concave p-4 rounded-[20px] text-center">

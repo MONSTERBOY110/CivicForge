@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { toast } from 'react-hot-toast';
 import { ShieldAlert, Sparkles, MapPin, Calendar, Cpu, Volume2, X, Plus, ListFilter } from 'lucide-react';
 import { DeliveryTypeToggle, SolutionType } from '../../components/DeliveryTypeToggle';
+import { GrievanceMedia } from '../../components/GrievanceMedia';
 interface Problem {
   _id: string;
   category: string;
@@ -267,6 +268,9 @@ export const ProblemFeed: React.FC = () => {
                 <div className="space-y-2 pt-1.5">
                   <p className="theme-text-main text-sm font-bold leading-relaxed pr-24 sm:pr-0">{prob.description}</p>
                 </div>
+
+                {/* Photo evidence / original voice note attached by the citizen */}
+                <GrievanceMedia inputType={prob.inputType} mediaUrl={prob.mediaUrl} />
 
                 {/* Scoring metrics breakdown grid */}
                 <div className="grid grid-cols-3 gap-2.5 neumorphic-concave p-3.5 rounded-[20px] text-center">
